@@ -1,0 +1,7 @@
+
+gpx2jsonl() {
+    cat "$@" \
+    | yq 'from_xml | .gpx.trk.trkseg.trkpt[] | to_json' \
+    | jq -c '{ "lat": ."+@lat" | tonumber, "lng": ."+@lon" | tonumber, time }'
+}
+export -f gpx2jsonl
